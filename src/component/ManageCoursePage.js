@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import CourseForm from "./CourseForm";
-import { Prompt } from "react-router-dom";
 import * as courseApi from "../api/courseApi";
 
 const ManageCoursePage = props => {
   const [course, setCourse] = useState({
     id: null,
-    slugt: "",
+    slug: "",
     title: "",
     authorId: null,
     category: ""
@@ -20,12 +19,13 @@ const ManageCoursePage = props => {
   }
   function handleSubmit(event) {
     event.preventDefault();
-    courseApi.saveCourse(course);
+    courseApi.saveCourse(course).then(() => {
+      props.history.push("/courses");
+    });
   }
   return (
     <div>
       <h2>Manage Course</h2>
-      <Prompt when={true} message="Are you sure?"></Prompt>
       <CourseForm
         course={course}
         onChange={handleChange}
